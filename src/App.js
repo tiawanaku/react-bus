@@ -1,34 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
+// src/App.js
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importar estilos de Bootstrap
+import Login from './components/Login';
+import Home from './components/Home';
+import PagoQR from './components/PagoQR';
+import PagoTarjetaSube from './components/PagoTarjetaSube';
+import PagoEfectivo from './components/PagoEfectivo';
 
 function App() {
-  const [messages, setMessages] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
 
-  useEffect(() => {
-    // Conectar con el servidor Socket.IO
-    const socket = io('http://localhost:3000'); // Cambia al puerto de tu servidor Node.js
-
-    // Escuchar los mensajes MQTT desde el servidor Node.js
-    socket.on('mqtt_message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-    });
-
-    // Desconectar cuando el componente se desmonte
-    return () => {
-      socket.disconnect();
+    // Función para manejar el login exitoso
+    const handleLogin = () => {
+        setIsLoggedIn(true);
     };
-  }, []);
 
-  return (
-    <div>
-      <h1>Mensajes Recibidos</h1>
-      <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>{`Topic: ${msg.topic}, Message: ${msg.message}`}</li>
-        ))}
-      </ul>
-    </div>
-  );
+    // Función para manejar la selección de métodos de pago
+    const handlePaymentSelection = (method) => {
+        setSelectedPaymentMethod(method);
+    };
+
+    // Función para volver al "HOME"
+    const goBackToHome = () => {
+        setSelectedPaymentMethod('');
+    };
+
+    return (
+        <div className="App container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+            {/* Renderizar el componente de Login si el usuario no está autenticado */}
+            {!isLoggedIn ? (
+                <Login onLogin={handleLogin} />
+            ) : (
+                // Mostrar el contenido dependiendo del método de pago seleccionado
+                <>
+                    {!selectedPaymentMethod && <Home onPaymentSelect={handlePaymentSelection} />}
+                    {selectedPaymentMethod === 'QR' && <PagoQR goBack={goBackToHome} />}
+                    {selectedPaymentMethod === 'TARJETA_SUBE' && <PagoTarjetaSube goBack={goBackToHome} />}
+                    {selectedPaymentMethod === 'EFECTIVO' && <PagoEfectivo goBack={goBackToHome} />}
+                </>
+            )}
+        </div>
+    );
 }
 
 export default App;
