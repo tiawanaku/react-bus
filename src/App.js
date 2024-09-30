@@ -6,6 +6,7 @@ import Home from './components/Home';
 import PagoQR from './components/PagoQR';
 import PagoTarjetaSube from './components/PagoTarjetaSube';
 import PagoEfectivo from './components/PagoEfectivo';
+import PagoCripto from './components/PagoCripto,js';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +39,7 @@ function App() {
                     {selectedPaymentMethod === 'QR' && <PagoQR goBack={goBackToHome} />}
                     {selectedPaymentMethod === 'TARJETA_SUBE' && <PagoTarjetaSube goBack={goBackToHome} />}
                     {selectedPaymentMethod === 'EFECTIVO' && <PagoEfectivo goBack={goBackToHome} />}
+                    {selectedPaymentMethod === 'Criptomonedas' && <PagoCripto goBack={goBackToHome} />}
                 </>
             )}
         </div>

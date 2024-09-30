@@ -18,10 +18,16 @@ const Home = ({ onPaymentSelect }) => {
                 PAGO con TARJETA SUBE
             </button>
             <button 
-                className="btn btn-primary" 
+                className="btn btn-primary mb-3" 
                 onClick={() => onPaymentSelect('EFECTIVO')}
             >
                 PAGO EN EFECTIVO
+            </button>
+            <button 
+                className="btn btn-primary" 
+                onClick={() => onPaymentSelect('Criptomonedas')}
+            >
+                PAGO con Criptomonedas
             </button>
         </div>
     );
