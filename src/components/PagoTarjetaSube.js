@@ -1,36 +1,66 @@
-// src/components/PagoTarjetaSube.js
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
+import './PagoTarjetaSube.css';
 
 const PagoTarjetaSube = ({ goBack }) => {
-    const [messages, setMessages] = useState([]);
+    const [currentMessage, setCurrentMessage] = useState(null);
+    const [showMessage, setShowMessage] = useState(false);
+
+    // Crear una instancia de Audio para el archivo MP3
+    const paseAbordoAudio = new Audio('/audio/pase.mp3');
 
     useEffect(() => {
-        // Conectar al servidor Socket.IO
-        const socket = io('http://localhost:3000'); // Cambia esto al puerto de tu servidor Node.js
+        const socket = io('http://localhost:3000');
 
-        // Escuchar los mensajes MQTT desde el servidor Node.js
         socket.on('mqtt_message', (data) => {
-            setMessages((prevMessages) => [...prevMessages, data]);
+            if (data.message === '1') {
+                setCurrentMessage('PASE a BORDO');
+                setShowMessage(true);
+                // Reproduce el audio cuando se muestra el mensaje "PASE a BORDO"
+                paseAbordoAudio.play();
+            } else if (data.message === '0') {
+                setCurrentMessage('RECARGUE su SALDO');
+                setShowMessage(true);
+            }
         });
 
-        // Desconectar cuando el componente se desmonte
         return () => {
             socket.disconnect();
         };
     }, []);
 
+    useEffect(() => {
+        let timer;
+        if (showMessage) {
+            timer = setTimeout(() => {
+                setShowMessage(false);
+            }, 5000);
+        }
+        return () => clearTimeout(timer);
+    }, [showMessage]);
+
     return (
-        <div>
-            <button className="btn btn-secondary mb-3" onClick={goBack}>
+        <div className="pago-tarjeta-sube">
+            <button className="back-button" onClick={goBack}>
                 ← Volver
             </button>
-            <h1>Mensajes Recibidos</h1>
-            <ul>
-                {messages.map((msg, index) => (
-                    <li key={index}>{`Topic: ${msg.topic}, Message: ${msg.message}`}</li>
-                ))}
-            </ul>
+            <h1>Estado de la Tarjeta SUBE</h1>
+            {showMessage && (
+                <div className={`message-container ${currentMessage === 'PASE a BORDO' ? 'pass' : 'stop'}`}>
+                    <p className="message">{currentMessage}</p>
+                    {currentMessage === 'PASE a BORDO' && (
+                        <div className="bus-animation">
+                            <div className="bus"></div>
+                            <div className="passenger"></div>
+                        </div>
+                    )}
+                    {currentMessage === 'RECARGUE su SALDO' && (
+                        <div className="stop-sign">
+                            <div className="stop-hand">✋</div>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

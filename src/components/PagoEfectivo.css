@@ -1,0 +1,104 @@
+.pago-efectivo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+}
+
+.back-button {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
+
+h2 {
+    margin-bottom: 2rem;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.payment-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.payment-button:active {
+    transform: translateY(-2px);
+}
+
+.payment-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.preferential {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.regular {
+    background-color: #4d94ff;
+    color: white;
+}
+
+.cost {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.loading, .message {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.loading {
+    color: #666;
+}
+
+.message {
+    color: #4CAF50;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.payment-button {
+    animation: pulse 2s infinite;
+}

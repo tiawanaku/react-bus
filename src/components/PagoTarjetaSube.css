@@ -1,0 +1,104 @@
+.pago-tarjeta-sube {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+}
+
+.back-button {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.pass {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.stop {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.bus-animation {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.bus {
+    position: absolute;
+    width: 150px;
+    height: 80px;
+    background-color: #ffd700;
+    border-radius: 10px;
+    left: 0;
+    bottom: 0;
+}
+
+.passenger {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-color: #000;
+    border-radius: 50% 50% 0 0;
+    bottom: 0;
+    left: -30px;
+    animation: board-bus 5s linear;
+}
+
+@keyframes board-bus {
+    0% { left: -30px; }
+    80% { left: 70px; bottom: 0; }
+    90% { left: 70px; bottom: 20px; }
+    100% { left: 70px; bottom: 20px; }
+}
+
+.stop-sign {
+    width: 100px;
+    height: 100px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulse 1s infinite alternate;
+}
+
+.stop-hand {
+    font-size: 3rem;
+    color: white;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}

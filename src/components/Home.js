@@ -1,33 +1,54 @@
-// src/components/Home.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import './Home.css'; // Asegúrate de crear este archivo CSS
 
-const Home = ({ onPaymentSelect }) => {
+const Home = ({ onPaymentSelect, onLogout }) => {
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentDateTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const formatDateTime = (date) => {
+        return date.toLocaleString('es-AR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    };
+
     return (
-        <div className="d-flex flex-column align-items-center">
-            <h2 className="mb-4">Seleccione un método de pago</h2>
+        <div className="home-container">
+            <h2 className="title">Seleccione un método de pago</h2>
+            <div className="payment-buttons">
+                <button 
+                    className="payment-button sube-button"
+                    onClick={() => onPaymentSelect('TARJETA_SUBE')}
+                >
+                    <span className="emoji">💳</span>
+                    PAGO con TARJETA SUBE
+                    <div className="datetime">{formatDateTime(currentDateTime)}</div>
+                </button>
+                <button 
+                    className="payment-button cash-button"
+                    onClick={() => onPaymentSelect('EFECTIVO')}
+                >
+                    <span className="emoji">💵</span>
+                    PAGO EN EFECTIVO
+                    <div className="datetime">{formatDateTime(currentDateTime)}</div>
+                </button>
+            </div>
             <button 
-                className="btn btn-primary mb-3" 
-                onClick={() => onPaymentSelect('QR')}
+                className="logout-button"
+                onClick={onLogout}
             >
-                PAGO con QR
-            </button>
-            <button 
-                className="btn btn-primary mb-3" 
-                onClick={() => onPaymentSelect('TARJETA_SUBE')}
-            >
-                PAGO con TARJETA SUBE
-            </button>
-            <button 
-                className="btn btn-primary mb-3" 
-                onClick={() => onPaymentSelect('EFECTIVO')}
-            >
-                PAGO EN EFECTIVO
-            </button>
-            <button 
-                className="btn btn-primary" 
-                onClick={() => onPaymentSelect('Criptomonedas')}
-            >
-                PAGO con Criptomonedas
+                Cerrar Sesión
             </button>
         </div>
     );
