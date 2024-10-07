@@ -34,7 +34,10 @@ const Login = ({ onLogin }) => {
 
             if (data[0].result === 1) {
                 setMessage('Login exitoso!');
-                onLogin(username); // Asegúrate de pasar el username aquí
+                onLogin(username); // Llamar la función de login
+
+                // Capturar la ubicación después de un login exitoso
+                captureLocation();
             } else {
                 setMessage('Credenciales incorrectas.');
             }
@@ -42,6 +45,53 @@ const Login = ({ onLogin }) => {
             setMessage('Error al realizar la solicitud.');
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    // Función para capturar la ubicación
+    const captureLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const locationData = {
+                        latitude: position.coords.latitude.toString(),
+                        longitude: position.coords.longitude.toString(),
+                        altitude: position.coords.altitude ? position.coords.altitude.toString() : 'N/A',
+                        accuracy: position.coords.accuracy.toString(),
+                        heading: position.coords.heading ? position.coords.heading.toString() : 'N/A',
+                        speed: position.coords.speed ? position.coords.speed.toString() : 'N/A',
+                        speedAccuracy: position.coords.speedAccuracy ? position.coords.speedAccuracy.toString() : 'N/A',
+                    };
+                    console.log('Ubicación capturada:', locationData); // Para depuración
+                    sendLocationData(locationData);
+                },
+                (error) => {
+                    console.error('Error al obtener la ubicación:', error);
+                }
+            );
+        } else {
+            console.error('La geolocalización no es compatible con este navegador.');
+        }
+    };
+
+    // Función para enviar la ubicación al endpoint
+    const sendLocationData = async (locationData) => {
+        try {
+            const response = await fetch('http://localhost:8046/gps', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(locationData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al enviar los datos de ubicación al servidor.');
+            }
+
+            console.log('Datos de ubicación enviados exitosamente.');
+        } catch (error) {
+            console.error('Error al enviar los datos de ubicación:', error);
         }
     };
 
