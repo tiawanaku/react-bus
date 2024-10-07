@@ -1,3 +1,4 @@
+// Home.js
 import React, { useState, useEffect } from 'react';
 import './Home.css'; // Asegúrate de crear este archivo CSS
 
@@ -46,7 +47,10 @@ const Home = ({ onPaymentSelect, onLogout }) => {
             </div>
             <button 
                 className="logout-button"
-                onClick={onLogout}
+                onClick={() => {
+                    console.log('Botón de cerrar sesión presionado');
+                    onLogout();
+                }}
             >
                 Cerrar Sesión
             </button>

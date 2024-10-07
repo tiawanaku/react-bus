@@ -23,6 +23,14 @@ function App() {
         setSelectedPaymentMethod(method);
     };
 
+    // Función para cerrar sesión
+    const handleLogout = () => {
+        console.log('Logout ejecutado');
+        setIsLoggedIn(false);
+        setUsername('');
+        setSelectedPaymentMethod('');
+    };
+
     // Función para volver al "HOME"
     const goBackToHome = () => {
         setSelectedPaymentMethod('');
@@ -36,7 +44,12 @@ function App() {
             ) : (
                 <>
                     {/* Mostrar el contenido dependiendo del método de pago seleccionado */}
-                    {!selectedPaymentMethod && <Home onPaymentSelect={handlePaymentSelection} />}
+                    {!selectedPaymentMethod && (
+                        <Home 
+                            onPaymentSelect={handlePaymentSelection} 
+                            onLogout={handleLogout} // Pasar la función handleLogout al componente Home
+                        />
+                    )}
                     {selectedPaymentMethod === 'TARJETA_SUBE' && <PagoTarjetaSube goBack={goBackToHome} />}
                     {selectedPaymentMethod === 'EFECTIVO' && <PagoEfectivo goBack={goBackToHome} username={username} />} {/* Pasa el username al componente PagoEfectivo */}
                 </>
