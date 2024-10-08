@@ -16,7 +16,7 @@ const PagoEfectivo = ({ goBack, username }) => { // Recibe username como prop
         setMessage('');
     
         try {
-            const response = await fetch('http://localhost:9051/bus_20', {
+            const response = await fetch('http://64.225.54.113:9053/bus_20', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const PagoEfectivo = ({ goBack, username }) => { // Recibe username como prop
         
     
     const listenToWebSocket = () => {
-        const socket = io('http://localhost:3000');
+        const socket = io('http://68.183.138.159:3000');
 
         socket.on('mqtt_message', (data) => {
             if (data.message === '1') {
