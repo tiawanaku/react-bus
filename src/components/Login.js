@@ -77,7 +77,7 @@ const Login = ({ onLogin }) => {
     // Función para enviar la ubicación al endpoint
     const sendLocationData = async (locationData) => {
         try {
-            const response = await fetch('http://localhost:8046/gps', {
+            const response = await fetch('http://64.225.54.113:8046/gps', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

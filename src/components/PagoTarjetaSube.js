@@ -10,7 +10,7 @@ const PagoTarjetaSube = ({ goBack }) => {
     const paseAbordoAudio = new Audio('/audio/pase.mp3');
 
     useEffect(() => {
-        const socket = io('http://localhost:3000');
+        const socket = io('http://68.183.138.159:3000');
 
         socket.on('mqtt_message', (data) => {
             if (data.message === '1') {

@@ -16,10 +16,11 @@ const PagoEfectivo = ({ goBack, username }) => { // Recibe username como prop
         setMessage('');
     
         try {
-            const response = await fetch('http://localhost:8545/bus_20', {
+            const response = await fetch('http://localhost:9051/bus_20', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'token': '3l4Lt02024' // Cambia el nombre del encabezado a 'token'
                 },
                 body: JSON.stringify({ valor: "1", tipo: type, usuario: username }), // Incluye el username en el JSON
             });
@@ -37,6 +38,7 @@ const PagoEfectivo = ({ goBack, username }) => { // Recibe username como prop
             setIsLoading(false);
         }
     };
+        
     
     const listenToWebSocket = () => {
         const socket = io('http://localhost:3000');
